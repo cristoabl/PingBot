@@ -1,9 +1,10 @@
 import logging
 from telegram import Update
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, CallbackContext
+import config
 
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
-TOKEN = "6580788874:AAEiJlmTDuiV2XBObehQHK6X-2U1iCMNRxU"
+TOKEN = config.tk
 
 def start(update: Update, context: CallbackContext) -> None:
     user = update.effective_user
