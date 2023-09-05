@@ -18,7 +18,7 @@ def get_token_info(contract_address):
     try:
         # Endpoint para obtener información de un token por dirección de contrato
         endpoint = f'/networks/eth/tokens/{contract_address}'
-        headers = Accept: application/json;version=20230302
+        headers = {'Accept': 'application/json;version=20230302'}
 
         # Realiza la solicitud GET a la API de GeckoTerminal
         response = requests.get(GECKO_BASE_URL + endpoint)
