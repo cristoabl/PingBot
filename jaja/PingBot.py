@@ -1,4 +1,5 @@
 import logging
+import re
 from telegram import Update
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, CallbackContext
 import config
@@ -14,7 +15,15 @@ def start(update: Update, context: CallbackContext) -> None:
     )
 
 def echo(update: Update, context: CallbackContext) -> None:
-    update.message.reply_text("pong")
+    message_text = update.message.text
+    if "ping" in message_text:
+        update.message.reply_text("pong")
+    elif re.match(r'^(\d+\s*,\s*)*\d+$', message_text):
+        numbers = [int(num) for num in message_text.split(",")]
+        result = sum(numbers)
+        update.message.reply_text(f"El resultado es: {result}")
+    else:
+        update.message.reply_text("No entiendo ese comando.")
 
 def main() -> None:
     updater = Updater(TOKEN)
@@ -23,7 +32,7 @@ def main() -> None:
 
     dp.add_handler(CommandHandler("start", start))
 
-    dp.add_handler(MessageHandler(Filters.regex(r'ping'), echo))
+    dp.add_handler(MessageHandler(Filters.text & (Filters.regex(r'ping') | Filters.regex(r'^(\d+\s*,\s*)*\d+$')), echo))
 
     updater.start_polling()
 
